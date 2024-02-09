@@ -65,12 +65,19 @@ public class Runner implements CommandLineRunner {
         Utente utente = new Utente();
         utente.setUsername("ikari23");
         utente.setNomeCompleto("Ikari Dunno");
-        utente.setEmail("ikari_dunno@example.com");
+        utente.setEmail("ikari_dunno@esempio.com");
 
         utenteRepository.save(utente);
 
+        Utente utente2 = new Utente();
+        utente2.setUsername("dave13");
+        utente2.setNomeCompleto("Davide Jackowski");
+        utente2.setEmail("dave13@esempio.com");
+
+        utenteRepository.save(utente2);
+
         Prenotazione prenotazione = new Prenotazione();
-        prenotazione.setUtente(utente);
+        prenotazione.setUtente(utente2);
         prenotazione.setPostazione(postazione1);
         prenotazione.setDataPrenotazione(LocalDate.of(2020, 11, 12));
 
@@ -78,13 +85,12 @@ public class Runner implements CommandLineRunner {
 
         prenotazioneService.cercaPostazioni(TipoPostazione.OPENSPACE, "Città di Esempio");
 
+        prenotazioneService.effettuaPrenotazione("dave13", 1L, LocalDate.now());
         prenotazioneService.effettuaPrenotazione("ikari23", 1L, LocalDate.now());
+
 
         List<Postazione> postazioni = postazioneService.cercaPostazioni(TipoPostazione.OPENSPACE, "Città di Esempio");
 
-        for (Postazione postazione : postazioni) {
-            System.out.println("Postazione: " + postazione.getCodice() + " in " + postazione.getEdificio().getCitta());
-        }
 
         logger.info("Fine dell'esecuzione del runner.");
 
